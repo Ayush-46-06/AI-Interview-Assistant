@@ -11,10 +11,10 @@ def get_application() -> FastAPI:
         debug=settings.DEBUG,
     )
 
-    # Allow local frontend development by default, but this should be 
-    # configurable for production
-    allow_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
-    if settings.APP_ENV == "development":
+    allow_origins = settings.CORS_ORIGINS
+    # Only allow wildcard in explicit development environment. 
+    # Do not default to wildcard in production if origins aren't provided.
+    if settings.APP_ENV == "development" and "*" not in allow_origins:
         allow_origins.append("*")
 
     application.add_middleware(
@@ -27,6 +27,9 @@ def get_application() -> FastAPI:
 
     from app.api.v1.router import api_router
     application.include_router(api_router, prefix="/api")
+
+    from app.websocket.endpoints import router as ws_router
+    application.include_router(ws_router, prefix="/ws")
 
     return application
 
