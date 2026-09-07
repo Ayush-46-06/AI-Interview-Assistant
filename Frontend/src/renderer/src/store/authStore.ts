@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { setAccessToken, setRefreshFailedHandler, apiGet } from '../services/api'
 import { login as apiLogin, logout as apiLogout, register as apiRegister } from '../services/auth.service'
-import type { UserResponse, LoginRequest, RegisterRequest } from '../types/api'
+import type { ProfileResponse, LoginRequest, RegisterRequest } from '../types/api'
 
 interface AuthState {
-  user: UserResponse | null
+  user: ProfileResponse | null
   isLoading: boolean
   error: string | null
   isAuthenticated: boolean
@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthState>((set) => {
         await window.electronStore.set('refresh_token', tokens.refresh_token)
 
         // Fetch user profile to populate store
-        const user = await apiGet<UserResponse>('/api/auth/me').catch(() => null)
+        const user = await apiGet<ProfileResponse>('/api/profile').catch(() => null)
 
         set({ isAuthenticated: true, user, isLoading: false })
       } catch (err) {
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthState>((set) => {
         setAccessToken(tokens.access_token)
         await window.electronStore.set('refresh_token', tokens.refresh_token)
 
-        const user = await apiGet<UserResponse>('/api/auth/me').catch(() => null)
+        const user = await apiGet<ProfileResponse>('/api/profile').catch(() => null)
         set({ isAuthenticated: true, user })
         return true
       } catch {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '../store/authStore'
 import { useSessionStore } from '../store/sessionStore'
 import { listSessions } from '../services/session.service'
 import { apiGet } from '../services/api'
@@ -9,7 +8,6 @@ import AppLayout from '../components/AppLayout'
 
 export default function DashboardPage(): React.JSX.Element {
   const navigate = useNavigate()
-  const { user } = useAuthStore()
   const { sessions, totalSessions, setSessions } = useSessionStore()
   const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -29,7 +27,7 @@ export default function DashboardPage(): React.JSX.Element {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-semibold text-white">
-              Welcome back{user?.name ? `, ${user.name}` : ''}
+              Welcome back
             </h1>
             <p className="text-gray-400 text-sm mt-1">Your interview preparation dashboard</p>
           </div>

@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, session } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, session, safeStorage } from 'electron'
 import { join } from 'path'
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -11,7 +11,9 @@ const tokenPath = join(dataDir, '.athenura_session')
 function readStoredValue(key: string): string | null {
   try {
     if (!existsSync(tokenPath)) return null
-    const raw = readFileSync(tokenPath, 'utf-8')
+    if (!safeStorage.isEncryptionAvailable()) return null
+    const encryptedBuffer = readFileSync(tokenPath)
+    const raw = safeStorage.decryptString(encryptedBuffer)
     const store = JSON.parse(raw) as Record<string, string>
     return store[key] ?? null
   } catch {
@@ -20,23 +22,34 @@ function readStoredValue(key: string): string | null {
 }
 
 function writeStoredValue(key: string, value: string): void {
+  if (!safeStorage.isEncryptionAvailable()) {
+    console.error('Encryption not available, cannot store secret safely.')
+    return
+  }
   let store: Record<string, string> = {}
   try {
     if (existsSync(tokenPath)) {
-      store = JSON.parse(readFileSync(tokenPath, 'utf-8'))
+      const encryptedBuffer = readFileSync(tokenPath)
+      const raw = safeStorage.decryptString(encryptedBuffer)
+      store = JSON.parse(raw)
     }
   } catch { /* fresh store */ }
   store[key] = value
   if (!existsSync(dataDir)) mkdirSync(dataDir, { recursive: true })
-  writeFileSync(tokenPath, JSON.stringify(store), 'utf-8')
+  const newEncryptedBuffer = safeStorage.encryptString(JSON.stringify(store))
+  writeFileSync(tokenPath, newEncryptedBuffer)
 }
 
 function deleteStoredValue(key: string): void {
   try {
     if (!existsSync(tokenPath)) return
-    const store = JSON.parse(readFileSync(tokenPath, 'utf-8')) as Record<string, string>
+    if (!safeStorage.isEncryptionAvailable()) return
+    const encryptedBuffer = readFileSync(tokenPath)
+    const raw = safeStorage.decryptString(encryptedBuffer)
+    const store = JSON.parse(raw) as Record<string, string>
     delete store[key]
-    writeFileSync(tokenPath, JSON.stringify(store), 'utf-8')
+    const newEncryptedBuffer = safeStorage.encryptString(JSON.stringify(store))
+    writeFileSync(tokenPath, newEncryptedBuffer)
   } catch { /* ignore */ }
 }
 
