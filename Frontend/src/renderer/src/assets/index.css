@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Application-wide base styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #030712;
+  color: #f9fafb;
+}
+
+/* Electron: disable default text selection on UI chrome */
+nav, button, label {
+  user-select: none;
+}
