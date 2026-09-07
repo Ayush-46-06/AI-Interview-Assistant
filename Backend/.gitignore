@@ -1,0 +1,38 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Alembic
+# If you don't want to ignore migrations, you don't need this, 
+# but usually we commit migrations.
+# We will not ignore the alembic directory.
+
+# macOS
+.DS_Store
