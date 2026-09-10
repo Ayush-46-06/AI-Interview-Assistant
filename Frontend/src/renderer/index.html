@@ -3,11 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Electron</title>
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 http://localhost:8001 http://127.0.0.1:8001 ws://localhost:8000 ws://127.0.0.1:8000 ws://localhost:8001 ws://127.0.0.1:8001; img-src 'self' data:"
-    />
+    <!-- CSP is handled securely by the Electron main process (see src/main/index.ts) -->
   </head>
 
   <body>

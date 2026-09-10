@@ -78,7 +78,7 @@ function createWindow(): void {
 
   // Strict Content Security Policy
   // Allows only our backend origin for HTTP/WS. No unsafe-eval, no wildcard.
-  const apiOrigin = process.env.VITE_API_BASE_URL ?? 'http://localhost:8000'
+  const apiOrigin = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000'
   const wsOrigin = apiOrigin.replace(/^http/, 'ws')
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {

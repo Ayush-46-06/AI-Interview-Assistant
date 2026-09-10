@@ -4,11 +4,11 @@ class Settings(BaseSettings):
     # App
     APP_NAME: str = "AI Interview Assistant"
     APP_ENV: str = "development"
-    DEBUG: bool = True
+    DEBUG: bool = False
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
     # Database
-    DATABASE_URL: str = "postgresql+psycopg://postgres:password@localhost:5432/interview_db"
+    DATABASE_URL: str
 
     # Auth
     JWT_SECRET_KEY: str
@@ -18,19 +18,10 @@ class Settings(BaseSettings):
 
     # External APIs
     GROQ_API_KEY: str
-
-    # Redis
-    REDIS_URL: str
-
-    # JWT Security
-    JWT_SECRET_KEY: str = "changeme_in_production_to_a_long_random_string"
-    JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
-    
-    # Groq API
-    GROQ_API_KEY: str = ""
     GROQ_MODEL: str = "openai/gpt-oss-20b"
+
+    # Redis (Optional depending on usage, but keeping as string type)
+    REDIS_URL: str = ""
     
     # STT Config
     STT_PROVIDER: str = "groq"
