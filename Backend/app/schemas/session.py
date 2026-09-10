@@ -77,13 +77,12 @@ class SessionResponse(BaseModel):
     mode: str
     target_role: Optional[str]
     started_at: datetime
-    completed_at: Optional[datetime]
+    ended_at: Optional[datetime]
     status: str
     score: Optional[float]
+    duration_seconds: Optional[int]
     question_count: int
-    context_data: dict
     created_at: datetime
-    updated_at: datetime
     
     model_config = ConfigDict(from_attributes=True)
 

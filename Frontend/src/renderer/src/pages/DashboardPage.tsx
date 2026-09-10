@@ -31,12 +31,20 @@ export default function DashboardPage(): React.JSX.Element {
             </h1>
             <p className="text-gray-400 text-sm mt-1">Your interview preparation dashboard</p>
           </div>
-          <button
-            onClick={() => navigate('/interview/new')}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded transition-colors"
-          >
-            Start Interview
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate('/context')}
+              className="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 text-sm font-medium px-4 py-2 rounded transition-colors"
+            >
+              Manage Context
+            </button>
+            <button
+              onClick={() => navigate('/interview/new')}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded transition-colors"
+            >
+              Start Interview
+            </button>
+          </div>
         </div>
 
         {/* Stats */}

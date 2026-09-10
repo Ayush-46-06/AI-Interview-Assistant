@@ -47,6 +47,8 @@ export interface ProfileUpdate {
   preferences?: ContextPreferences | null
 }
 
+export type ContextUpdate = ProfileUpdate
+
 export interface ProfileResponse {
   id: string
   user_id: string
@@ -74,13 +76,12 @@ export interface SessionResponse {
   mode: string
   target_role: string | null
   started_at: string
-  completed_at: string | null
+  ended_at: string | null
   status: string
   score: number | null
+  duration_seconds: number | null
   question_count: number
-  context_data: Record<string, unknown>
   created_at: string
-  updated_at: string
 }
 
 export interface AnswerResponse {
@@ -185,17 +186,21 @@ export type ClientEventType =
 
 export interface ClientEvent {
   event: ClientEventType
-  [key: string]: unknown
+  payload?: Record<string, unknown>
 }
 
 export interface AudioChunkEvent extends ClientEvent {
   event: 'audio_chunk'
-  audio: string // base64-encoded audio chunk
+  payload: {
+    audio: string // base64-encoded audio chunk
+  }
 }
 
 export interface RequestAnswerEvent extends ClientEvent {
-  event: 'request_answer'
-  answer_mode?: AnswerMode
+  event: 'request_answer' | 'regenerate_answer'
+  payload: {
+    mode?: AnswerMode
+  }
 }
 
 // Events sent FROM the server TO the client

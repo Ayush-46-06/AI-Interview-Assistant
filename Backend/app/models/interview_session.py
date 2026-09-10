@@ -35,6 +35,10 @@ class InterviewSession(Base):
     user = relationship("User", back_populates="interview_sessions")
     questions = relationship("Question", back_populates="session", cascade="all, delete-orphan")
 
+    @property
+    def status(self) -> str:
+        return "completed" if self.ended_at else "in_progress"
+
     __table_args__ = (
         Index("idx_sessions_user", "user_id"),
         Index("idx_sessions_started", "started_at"),

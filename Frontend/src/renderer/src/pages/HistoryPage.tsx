@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { listSessions } from '../services/session.service'
 import { useSessionStore } from '../store/sessionStore'
 import AppLayout from '../components/AppLayout'
@@ -6,6 +7,7 @@ import AppLayout from '../components/AppLayout'
 export default function HistoryPage(): React.JSX.Element {
   const { sessions, totalSessions, setSessions, isLoading, setLoading } = useSessionStore()
   const [page, setPage] = useState(1)
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
@@ -30,9 +32,10 @@ export default function HistoryPage(): React.JSX.Element {
           <>
             <div className="space-y-2 mb-6">
               {sessions.map((s) => (
-                <div
+                <button
                   key={s.id}
-                  className="bg-gray-900 border border-gray-800 rounded px-4 py-3"
+                  onClick={() => navigate(`/history/${s.id}`)}
+                  className="w-full text-left bg-gray-900 border border-gray-800 rounded px-4 py-3 hover:bg-gray-800 transition"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-white text-sm font-medium">{s.mode}</span>
@@ -46,7 +49,7 @@ export default function HistoryPage(): React.JSX.Element {
                     {s.score != null && <span>Score: {s.score.toFixed(0)}</span>}
                     <span className="capitalize">{s.status}</span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
 

@@ -9,6 +9,9 @@ import HistoryPage from './pages/HistoryPage'
 import AnalyticsPage from './pages/AnalyticsPage'
 import SettingsPage from './pages/SettingsPage'
 import InterviewSessionPage from './pages/InterviewSessionPage'
+import NewSessionPage from './pages/NewSessionPage'
+import ContextPage from './pages/ContextPage'
+import SessionDetailPage from './pages/SessionDetailPage'
 
 function App(): React.JSX.Element {
   const [restoring, setRestoring] = useState(true)
@@ -55,7 +58,7 @@ function App(): React.JSX.Element {
           path="/interview/new"
           element={
             <ProtectedRoute>
-              <InterviewSessionPage />
+              <NewSessionPage />
             </ProtectedRoute>
           }
         />
@@ -68,10 +71,26 @@ function App(): React.JSX.Element {
           }
         />
         <Route
+          path="/history/:sessionId"
+          element={
+            <ProtectedRoute>
+              <SessionDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/analytics"
           element={
             <ProtectedRoute>
               <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/context"
+          element={
+            <ProtectedRoute>
+              <ContextPage />
             </ProtectedRoute>
           }
         />
