@@ -7,17 +7,13 @@ export async function register(data: RegisterRequest): Promise<UserResponse> {
 }
 
 export async function login(data: LoginRequest): Promise<TokenResponse> {
-  // Backend auth/login uses OAuth2PasswordRequestForm — must be form-encoded
-  const form = new URLSearchParams()
-  form.append('username', data.username)
-  form.append('password', data.password)
-
+  // Backend expects JSON body with `email` field (not OAuth2 form-encoded `username`)
   const res = await fetch(
     `${import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000'}/api/auth/login`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: form.toString()
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: data.username, password: data.password })
     }
   )
 

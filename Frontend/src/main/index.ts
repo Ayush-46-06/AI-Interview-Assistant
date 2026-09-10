@@ -123,6 +123,8 @@ function createWindow(): void {
   }
 }
 
+app.disableHardwareAcceleration()
+
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.athenura.desktop')
 

@@ -332,7 +332,7 @@ export default function InterviewSessionPage(): React.JSX.Element {
                 <div className="bg-gray-800 p-4 rounded border border-gray-700">
                   <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Overall Score</p>
                   <p className="text-2xl text-white font-semibold">
-                    {currentSession.score !== null ? currentSession.score.toFixed(1) : '—'}
+                    {currentSession.score != null ? currentSession.score.toFixed(1) : '—'}
                   </p>
                 </div>
               </div>
